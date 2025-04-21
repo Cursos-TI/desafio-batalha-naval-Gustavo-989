@@ -1,40 +1,51 @@
 #include <stdio.h>
 
-// Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
-// Siga os comentários para implementar cada parte do desafio.
+#define TAMANHO 5  // Todas as habilidades terão uma matriz 5x5 para centralizar a origem
+
+// Função para imprimir uma matriz
+void imprimirMatriz(int matriz[TAMANHO][TAMANHO], const char* nome) {
+    printf("\nPadrão de habilidade: %s\n", nome);
+    for (int i = 0; i < TAMANHO; i++) {
+        for (int j = 0; j < TAMANHO; j++) {
+            printf("%d ", matriz[i][j]);
+        }
+        printf("\n");
+    }
+}
 
 int main() {
-    // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
-    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
+    int cone[TAMANHO][TAMANHO] = {0};
+    int cruz[TAMANHO][TAMANHO] = {0};
+    int octaedro[TAMANHO][TAMANHO] = {0};
 
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
+    int centro = TAMANHO / 2; // Centro da matriz: posição (2,2)
 
-    // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
+    // Preencher padrão em CONE (forma de pirâmide voltada para baixo)
+    for (int i = 0; i <= centro; i++) {
+        for (int j = centro - i; j <= centro + i; j++) {
+            cone[centro - i][j] = 1;
+        }
+    }
 
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
-    
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
+    // Preencher padrão em CRUZ (uma linha e uma coluna cruzando o centro)
+    for (int i = 0; i < TAMANHO; i++) {
+        cruz[centro][i] = 1; // linha central
+        cruz[i][centro] = 1; // coluna central
+    }
 
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
+    // Preencher padrão em OCTAEDRO (forma de losango)
+    for (int i = 0; i < TAMANHO; i++) {
+        for (int j = 0; j < TAMANHO; j++) {
+            if (abs(i - centro) + abs(j - centro) <= 2) {
+                octaedro[i][j] = 1;
+            }
+        }
+    }
+
+    // Exibição
+    imprimirMatriz(cone, "CONE");
+    imprimirMatriz(cruz, "CRUZ");
+    imprimirMatriz(octaedro, "OCTAEDRO");
 
     return 0;
 }
